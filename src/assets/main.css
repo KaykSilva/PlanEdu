@@ -1,12 +1,6 @@
 @import "tailwindcss";
+@import "tailwindcss";
 @plugin "daisyui" {
-  themes: all;
-  --color-jaffa: #f29733;
-  --color-piper: #d5692b;
-  --color-jelly-bean: #248e95;
-  --color-fern-green: #4b8c40;
-  --color-porcelain: #ecf2f2;
-  --color-sushi: #8cbf48;
-  --color-cloudburst: #263860;
-  --color-sapling: #e0d8a5;
+  
 }
+
