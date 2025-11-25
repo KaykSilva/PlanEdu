@@ -2,6 +2,9 @@
 import { Calendar, Clock, FileText, Share2, Download } from "lucide-vue-next";
 import { inject } from "vue";
 import { useRouter } from "vue-router";
+import { generateLessonPlanPDF } from "@/utils/PDFGenerate";
+import { POSITION, TYPE } from "vue-toastification";
+import { useNotify } from "@/composables/UseNotify";
 
 const props = defineProps({
   plan: {
@@ -12,6 +15,7 @@ const props = defineProps({
 
 const router = useRouter();
 const toast = inject("toast");
+const { notify } = useNotify();
 
 const goToPlan = () => {
   router.push(`/show/${props.plan.id}`);
@@ -35,10 +39,14 @@ const handleShare = () => {
   }
 };
 
-const handleDownload = () => {
-  toast?.({
-    title: "Download iniciado",
-    description: "O PDF do seu plano de aula está sendo preparado...",
+const downloadPlan = (plan) => {
+  console.log("Downloading plan:", props.plan);
+
+  generateLessonPlanPDF(props.plan.id);
+  notify("Download iniciado com sucesso!", {
+    bodyClass: "rounded-md shadow-lg",
+    position: POSITION.TOP_CENTER,
+    type: TYPE.SUCCESS,
   });
 };
 </script>
@@ -70,16 +78,16 @@ const handleDownload = () => {
 
     <div class="card-body pb-3 flex-grow">
       <div class="flex justify-between items-start mb-2">
-        <div class="badge badge-secondary text-xs font-medium">
+        <div class="badge badge-secondary p-3 text-xs font-medium">
           {{ plan.subject }}
         </div>
 
-        <div class="badge badge-outline text-xs">
+        <div class="badge badge-outline text-xs p-3">
           {{ plan.grade }}
         </div>
       </div>
 
-      <h3 class="text-lg font-semibold line-clamp-2 transition-colors group-hover:text-primary">
+      <h3 class="text-xl font-bold line-clamp-2 transition-colors group-hover:text-primary">
         {{ plan.title }}
       </h3>
 
@@ -115,12 +123,12 @@ const handleDownload = () => {
       <!-- Footer fixado no final -->
 
       <div class="flex gap-2 pt-3 mt-4 border-t border-base-300">
-        <button class="btn btn-ghost btn-sm flex-1 gap-2 text-xs" @click.stop="handleShare">
+        <button class="btn btn-sm flex-1 gap-2 text-xs" @click.stop="handleShare">
           <Share2 class="w-4 h-4" />
           Compartilhar
         </button>
 
-        <button class="btn btn-ghost btn-sm flex-1 gap-2 text-xs" @click.stop="handleDownload">
+        <button class="btn btn-sm flex-1 gap-2 text-xs" @click.stop="downloadPlan">
           <Download class="w-4 h-4" />
           PDF
         </button>

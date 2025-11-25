@@ -106,7 +106,7 @@ async function handleSave() {
     <div class="min-h-screen bg-base-200">
         <header class="w-full">
             <div class="container mx-auto px-4 py-4 max-w-4xl flex items-center justify-between">
-                <button class="btn btn-ghost gap-2" @click="goBack" type="button" aria-label="Voltar">
+                <button class="btn btn-soft gap-2" @click="goBack" type="button" aria-label="Voltar">
                     <ArrowLeft class="w-4 h-4" />
                     Voltar
                 </button>
@@ -117,7 +117,6 @@ async function handleSave() {
                         Crie um plano de aula detalhado e organizado
                     </p>
                 </div>
-
             </div>
         </header>
 
@@ -129,7 +128,7 @@ async function handleSave() {
                         <div class="card-body space-y-4">
                             <div class="flex items-center gap-2">
                                 <FileText class="w-5 h-5 text-primary" />
-                                <h3 class="card-title m-0">Informações Básicas</h3>
+                                <h3 class="card-title m-0 text-2xl">Informações Básicas</h3>
                             </div>
 
                             <div>
@@ -146,14 +145,14 @@ async function handleSave() {
                                     <select id="subject" class="select select-bordered w-full shadow"
                                         v-model="formData.subject">
                                         <option value="" disabled selected>Selecione a disciplina</option>
-                                        <option value="matematica">Matemática</option>
-                                        <option value="portugues">Português</option>
-                                        <option value="historia">História</option>
-                                        <option value="geografia">Geografia</option>
-                                        <option value="ciencias">Ciências</option>
-                                        <option value="educacao-fisica">Educação Física</option>
-                                        <option value="artes">Artes</option>
-                                        <option value="ingles">Inglês</option>
+                                        <option value="Matemática">Matemática</option>
+                                        <option value="Português">Português</option>
+                                        <option value="História">História</option>
+                                        <option value="Geografia">Geografia</option>
+                                        <option value="Ciências">Ciências</option>
+                                        <option value="Educação Física">Educação Física</option>
+                                        <option value="Artes">Artes</option>
+                                        <option value="Inglês">Inglês</option>
                                     </select>
                                 </div>
 
@@ -204,12 +203,12 @@ async function handleSave() {
                         <div class="card-body space-y-4">
                             <div class="flex items-center gap-2">
                                 <Users class="w-5 h-5 text-secondary" />
-                                <h3 class="card-title m-0">Objetivos de Aprendizagem</h3>
+                                <h3 class="card-title m-0 text-2xl">Objetivos de Aprendizagem</h3>
                             </div>
 
                             <div class="space-y-2">
                                 <div v-for="(objective, index) in formData.objectives" :key="index" class="flex gap-2">
-                                    <input :placeholder="`Objetivo ${index + 1}...`"
+                                    <input :placeholder="`Objetivo ${index + 1}`"
                                         class="input input-bordered flex-1 shadow"
                                         v-model="formData.objectives[index]" />
                                     <button v-if="formData.objectives.length > 1" type="button"
@@ -219,7 +218,7 @@ async function handleSave() {
                                     </button>
                                 </div>
 
-                                <button type="button" class="btn btn-outline w-full" @click="addObjective">
+                                <button type="button" class="btn btn-primary w-full" @click="addObjective">
                                     Adicionar Objetivo
                                 </button>
                             </div>
@@ -229,7 +228,7 @@ async function handleSave() {
                     <div class="space-y-6">
                         <div class="card shadow">
                             <div class="card-body">
-                                <h3 class="card-title">Conteúdo da Aula</h3>
+                                <h3 class="card-title text-2xl">Conteúdo da Aula</h3>
                                 <textarea class="textarea textarea-bordered w-full min-h-[120px] shadow mt-2"
                                     placeholder="Descreva o conteúdo que será abordado na aula..."
                                     v-model="formData.content"></textarea>
@@ -238,7 +237,7 @@ async function handleSave() {
 
                         <div class="card shadow">
                             <div class="card-body">
-                                <h3 class="card-title">Metodologia</h3>
+                                <h3 class="card-title text-2xl">Metodologia</h3>
                                 <textarea class="textarea textarea-bordered w-full min-h-[120px] shadow mt-2"
                                     placeholder="Descreva as estratégias e métodos que serão utilizados..."
                                     v-model="formData.methodology"></textarea>
@@ -247,7 +246,7 @@ async function handleSave() {
 
                         <div class="card shadow">
                             <div class="card-body">
-                                <h3 class="card-title">Recursos Necessários</h3>
+                                <h3 class="card-title text-2xl">Recursos Necessários</h3>
                                 <textarea class="textarea textarea-bordered w-full min-h-[100px] shadow mt-2"
                                     placeholder="Liste os materiais e recursos necessários para a aula..."
                                     v-model="formData.resources"></textarea>
@@ -256,7 +255,7 @@ async function handleSave() {
 
                         <div class="card shadow">
                             <div class="card-body">
-                                <h3 class="card-title">Avaliação</h3>
+                                <h3 class="card-title text-2xl">Avaliação</h3>
                                 <textarea class="textarea textarea-bordered w-full min-h-[100px] shadow mt-2"
                                     placeholder="Como será avaliada a aprendizagem dos alunos..."
                                     v-model="formData.evaluation"></textarea>
@@ -265,7 +264,7 @@ async function handleSave() {
 
                         <div class="card shadow">
                             <div class="card-body">
-                                <h3 class="card-title">Tarefa de Casa</h3>
+                                <h3 class="card-title text-2xl">Tarefa de Casa</h3>
                                 <textarea class="textarea textarea-bordered w-full min-h-[80px] shadow mt-2"
                                     placeholder="Atividades para casa (opcional)..."
                                     v-model="formData.homework"></textarea>
