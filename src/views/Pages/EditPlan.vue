@@ -131,12 +131,11 @@ async function handleSave() {
     toast({
       title: isEditing.value ? "Plano atualizado!" : "Plano criado!",
       description: isEditing.value
-        ? "O plano foi atualizado no banco local."
+        ? "O plano foi atualizado com sucesso."
         : "O plano foi salvo no banco local.",
       variant: "success",
     });
 
-    router.push("/");
   } catch (error) {
     console.log(error);
     toast({
