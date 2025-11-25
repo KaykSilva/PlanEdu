@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 //@ts-nocheck
 import { ref, reactive, onMounted } from "vue";
@@ -157,8 +156,8 @@ async function handleSave() {
         </button>
 
         <div class="text-right">
-          <h1 class="text-2xl font-bold">Novo Plano de Aula</h1>
-          <p class="text-sm text-base-content/60">Crie um plano de aula detalhado e organizado</p>
+          <h1 class="text-2xl font-bold">Editar Plano de Aula</h1>
+          <p class="text-sm text-base-content/60">Atualize um plano de aula existente</p>
         </div>
       </div>
     </header>
@@ -174,28 +173,15 @@ async function handleSave() {
               </div>
 
               <div>
-                <label class="label" for="title"
-                  ><span class="label-text">Título do Plano *</span></label
-                >
-                <input
-                  id="title"
-                  required
-                  class="input input-bordered w-full shadow"
-                  placeholder="Ex: Introdução à Matemática..."
-                  v-model="formData.title"
-                />
+                <label class="label" for="title"><span class="label-text">Título do Plano *</span></label>
+                <input id="title" required class="input input-bordered w-full shadow"
+                  placeholder="Ex: Introdução à Matemática..." v-model="formData.title" />
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="label" required for="subject"
-                    ><span class="label-text">Disciplina *</span></label
-                  >
-                  <select
-                    id="subject"
-                    class="select select-bordered w-full shadow"
-                    v-model="formData.subject"
-                  >
+                  <label class="label" required for="subject"><span class="label-text">Disciplina *</span></label>
+                  <select id="subject" class="select select-bordered w-full shadow" v-model="formData.subject">
                     <option value="" disabled selected>Selecione a disciplina</option>
                     <option value="Matemática">Matemática</option>
                     <option value="Português">Português</option>
@@ -209,14 +195,8 @@ async function handleSave() {
                 </div>
 
                 <div>
-                  <label class="label" required for="grade"
-                    ><span class="label-text">Série/Ano *</span></label
-                  >
-                  <select
-                    id="grade"
-                    class="select select-bordered w-full shadow"
-                    v-model="formData.grade"
-                  >
+                  <label class="label" required for="grade"><span class="label-text">Série/Ano *</span></label>
+                  <select id="grade" class="select select-bordered w-full shadow" v-model="formData.grade">
                     <option value="" disabled selected>Selecione a série</option>
                     <option value="1-ano">1º Ano</option>
                     <option value="2-ano">2º Ano</option>
@@ -233,14 +213,8 @@ async function handleSave() {
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="label" for="duration"
-                    ><span class="label-text">Duração</span></label
-                  >
-                  <select
-                    id="duration"
-                    class="select select-bordered w-full shadow"
-                    v-model="formData.duration"
-                  >
+                  <label class="label" for="duration"><span class="label-text">Duração</span></label>
+                  <select id="duration" class="select select-bordered w-full shadow" v-model="formData.duration">
                     <option value="" disabled selected>Duração da aula</option>
                     <option value="30min">30 minutos</option>
                     <option value="40min">40 minutos</option>
@@ -253,12 +227,7 @@ async function handleSave() {
 
                 <div>
                   <label class="label" for="date"><span class="label-text">Data</span></label>
-                  <input
-                    id="date"
-                    type="date"
-                    class="input input-bordered w-full shadow"
-                    v-model="formData.date"
-                  />
+                  <input id="date" type="date" class="input input-bordered w-full shadow" v-model="formData.date" />
                 </div>
               </div>
             </div>
@@ -272,23 +241,11 @@ async function handleSave() {
               </div>
 
               <div class="space-y-2">
-                <div
-                  v-for="(objective, index) in formData.objectives"
-                  :key="index"
-                  class="flex gap-2"
-                >
-                  <input
-                    :placeholder="`Objetivo ${index + 1}`"
-                    class="input input-bordered flex-1 shadow"
-                    v-model="formData.objectives[index]"
-                  />
-                  <button
-                    v-if="formData.objectives.length > 1"
-                    type="button"
-                    class="btn btn-outline btn-sm px-3"
-                    @click="removeObjective(index)"
-                    aria-label="Remover objetivo"
-                  >
+                <div v-for="(objective, index) in formData.objectives" :key="index" class="flex gap-2">
+                  <input :placeholder="`Objetivo ${index + 1}`" class="input input-bordered flex-1 shadow"
+                    v-model="formData.objectives[index]" />
+                  <button v-if="formData.objectives.length > 1" type="button" class="btn btn-outline btn-sm px-3"
+                    @click="removeObjective(index)" aria-label="Remover objetivo">
                     ×
                   </button>
                 </div>
@@ -304,55 +261,43 @@ async function handleSave() {
             <div class="card shadow">
               <div class="card-body">
                 <h3 class="card-title text-2xl">Conteúdo da Aula</h3>
-                <textarea
-                  class="textarea textarea-bordered w-full min-h-[120px] shadow mt-2"
-                  placeholder="Descreva o conteúdo que será abordado na aula..."
-                  v-model="formData.content"
-                ></textarea>
+                <textarea class="textarea textarea-bordered w-full min-h-[120px] shadow mt-2"
+                  placeholder="Descreva o conteúdo que será abordado na aula..." v-model="formData.content"></textarea>
               </div>
             </div>
 
             <div class="card shadow">
               <div class="card-body">
                 <h3 class="card-title text-2xl">Metodologia</h3>
-                <textarea
-                  class="textarea textarea-bordered w-full min-h-[120px] shadow mt-2"
+                <textarea class="textarea textarea-bordered w-full min-h-[120px] shadow mt-2"
                   placeholder="Descreva as estratégias e métodos que serão utilizados..."
-                  v-model="formData.methodology"
-                ></textarea>
+                  v-model="formData.methodology"></textarea>
               </div>
             </div>
 
             <div class="card shadow">
               <div class="card-body">
                 <h3 class="card-title text-2xl">Recursos Necessários</h3>
-                <textarea
-                  class="textarea textarea-bordered w-full min-h-[100px] shadow mt-2"
+                <textarea class="textarea textarea-bordered w-full min-h-[100px] shadow mt-2"
                   placeholder="Liste os materiais e recursos necessários para a aula..."
-                  v-model="formData.resources"
-                ></textarea>
+                  v-model="formData.resources"></textarea>
               </div>
             </div>
 
             <div class="card shadow">
               <div class="card-body">
                 <h3 class="card-title text-2xl">Avaliação</h3>
-                <textarea
-                  class="textarea textarea-bordered w-full min-h-[100px] shadow mt-2"
+                <textarea class="textarea textarea-bordered w-full min-h-[100px] shadow mt-2"
                   placeholder="Como será avaliada a aprendizagem dos alunos..."
-                  v-model="formData.evaluation"
-                ></textarea>
+                  v-model="formData.evaluation"></textarea>
               </div>
             </div>
 
             <div class="card shadow">
               <div class="card-body">
                 <h3 class="card-title text-2xl">Tarefa de Casa</h3>
-                <textarea
-                  class="textarea textarea-bordered w-full min-h-[80px] shadow mt-2"
-                  placeholder="Atividades para casa (opcional)..."
-                  v-model="formData.homework"
-                ></textarea>
+                <textarea class="textarea textarea-bordered w-full min-h-[80px] shadow mt-2"
+                  placeholder="Atividades para casa (opcional)..." v-model="formData.homework"></textarea>
               </div>
             </div>
           </div>
@@ -366,10 +311,8 @@ async function handleSave() {
                 <h3 class="card-title m-0">Ações</h3>
               </div>
 
-              <button
-                class="btn w-full gap-2 bg-gradient-to-r from-primary to-secondary text-white"
-                @click="handleSave"
-              >
+              <button class="btn w-full gap-2 bg-gradient-to-r from-primary to-secondary text-white"
+                @click="handleSave">
                 <Save class="w-4 h-4" />
                 Salvar Plano
               </button>
@@ -390,10 +333,7 @@ async function handleSave() {
 
       <div class="fixed right-4 top-6 z-50 flex flex-col gap-3">
         <div v-for="t in toasts" :key="t.id" class="max-w-sm">
-          <div
-            class="alert shadow-lg"
-            :class="t.variant === 'destructive' ? 'alert-error' : 'alert-success'"
-          >
+          <div class="alert shadow-lg" :class="t.variant === 'destructive' ? 'alert-error' : 'alert-success'">
             <div class="flex-1">
               <h4 class="font-bold">{{ t.title }}</h4>
               <div class="text-sm">{{ t.description }}</div>

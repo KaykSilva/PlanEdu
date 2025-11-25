@@ -39,10 +39,8 @@ const handleShare = () => {
   }
 };
 
-const downloadPlan = (plan) => {
-  console.log("Downloading plan:", props.plan);
-
-  generateLessonPlanPDF(props.plan.id);
+const downloadPlan = () => {
+  generateLessonPlanPDF(props.plan);
   notify("Download iniciado com sucesso!", {
     bodyClass: "rounded-md shadow-lg",
     position: POSITION.TOP_CENTER,

@@ -28,7 +28,11 @@ const router = createRouter({
       name: 'not-found',
       component: () => import('@/views/Pages/NotFound.vue')
     },
-
+    {
+      path: '/verify/:id(\\d+)',
+      name: 'VerifyDocument',
+      component: () => import('@/views/Pages/VerifyDocument.vue')
+    },
     {
       path: '/test-localforage',
       name: 'test-localforage',

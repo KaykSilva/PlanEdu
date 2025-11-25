@@ -1,7 +1,8 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import QRCode from "qrcode";
 
-export function generateLessonPlanPDF(formData) {
+export async function generateLessonPlanPDF(formData) {
     const doc = new jsPDF({
         unit: "pt",
         format: "a4",
@@ -23,7 +24,8 @@ export function generateLessonPlanPDF(formData) {
     doc.setFont("Times", "normal");
     doc.setFontSize(8);
     doc.setTextColor(100);
-    doc.text(`ID: ${formData.id || Date.now()}`, margin, 70);
+    const documentId = formData.id || Date.now().toString();
+    doc.text(`ID: ${documentId}`, margin, 70);
     doc.text(`Sistema: PLanEdu`, pageWidth - margin, 70, { align: "right" });
 
     // Linha decorativa
@@ -178,6 +180,72 @@ export function generateLessonPlanPDF(formData) {
         currentY += 15;
     }
 
+    // QR Code para verificação (antes das assinaturas)
+    if (currentY > 500) {
+        doc.addPage();
+        currentY = margin;
+    }
+
+    // Gerar QR Code para verificação
+    const verificationUrl = `${window.location.origin}/verify/${documentId}`;
+
+    try {
+        // CORREÇÃO: Usar a sintaxe correta do QRCode
+        const qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
+            width: 200, // Tamanho maior para melhor qualidade
+            margin: 1,
+            color: {
+                dark: '#000000',
+                light: '#FFFFFF'
+            }
+        });
+
+        // Adicionar seção de verificação
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0);
+        doc.text("VERIFICAÇÃO DE AUTENTICIDADE", margin, currentY);
+        currentY += 20;
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(100);
+        doc.text("Escaneie o QR Code para verificar a autenticidade deste documento:", margin, currentY);
+        currentY += 25;
+
+        // Adicionar QR Code real (60x60 para caber melhor)
+        doc.addImage(qrCodeDataUrl, 'PNG', margin, currentY, 60, 60);
+
+        // Informações ao lado do QR Code
+        const infoX = margin + 80;
+        doc.setFontSize(7);
+        doc.setTextColor(80);
+
+        doc.text("ID do Documento:", infoX, currentY + 15);
+        doc.setFont("helvetica", "bold");
+        doc.text(documentId, infoX + 55, currentY + 15);
+
+        doc.setFont("helvetica", "normal");
+        doc.text("Sistema:", infoX, currentY + 30);
+        doc.setFont("helvetica", "bold");
+        doc.text("PLanEdu", infoX + 30, currentY + 30);
+
+        doc.setFont("helvetica", "normal");
+        doc.text("URL de Verificação:", infoX, currentY + 45);
+        doc.setFontSize(6);
+
+        // Quebrar URL se for muito longa
+        const urlLines = doc.splitTextToSize(verificationUrl, 200);
+        doc.text(urlLines, infoX, currentY + 60);
+
+        currentY += 80;
+
+    } catch (error) {
+        console.error('Erro ao gerar QR Code:', error);
+        // Fallback: texto sem QR Code
+        currentY = addQRCodeFallback(doc, verificationUrl, documentId, currentY, margin);
+    }
+
     // Assinaturas (com espaçamento reduzido)
     if (currentY > 600) {
         doc.addPage();
@@ -185,8 +253,8 @@ export function generateLessonPlanPDF(formData) {
     }
 
     const assinaturasBody = [
-        ["Professor da Disciplina: _____", "Assinatura: _____"],
-        ["Coordenador Pedagógico: _____", "Assinatura: _____"]
+        ["Professor da Disciplina: ____________________", "Assinatura: ____________________"],
+        ["Coordenador Pedagógico: ____________________", "Assinatura: ____________________"]
     ];
 
     autoTable(doc, {
@@ -212,10 +280,66 @@ export function generateLessonPlanPDF(formData) {
         { align: "center" }
     );
 
+    // Salvar documento no localStorage para verificação futura
+    saveDocumentToStorage(formData, documentId);
+
     // Nome do arquivo
     const filename = formData.title
         ? `${formData.title.replace(/\s+/g, "-")}-plano-educacional.pdf`
         : "plano-educacional.pdf";
 
     doc.save(filename);
+}
+
+// Função fallback para quando o QR Code falha - CORRIGIDA: recebe margin como parâmetro
+function addQRCodeFallback(doc, verificationUrl, documentId, startY, margin) {
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(0);
+    doc.text("VERIFICAÇÃO DE AUTENTICIDADE", margin, startY);
+    startY += 20;
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(100);
+    doc.text("Para verificar a autenticidade deste documento, acesse:", margin, startY);
+    startY += 15;
+
+    doc.setTextColor(0, 0, 255);
+    doc.textWithLink(verificationUrl, margin, startY, { url: verificationUrl });
+    startY += 20;
+
+    doc.setTextColor(80);
+    doc.setFontSize(7);
+    doc.text(`ID do Documento: ${documentId}`, margin, startY);
+    startY += 15;
+
+    doc.text(`Sistema: PLanEdu`, margin, startY);
+    startY += 30;
+
+    return startY;
+}
+
+// Função para salvar o documento no localStorage
+function saveDocumentToStorage(formData, documentId) {
+    try {
+        const documents = JSON.parse(localStorage.getItem('planEdu_documents') || '[]');
+
+        const documentToSave = {
+            ...formData,
+            id: documentId,
+            createdAt: new Date().toISOString(),
+            verified: true,
+            verificationUrl: `${window.location.origin}/verify/${documentId}`
+        };
+
+        // Remove documento existente com mesmo ID (se houver)
+        const filteredDocuments = documents.filter(doc => doc.id !== documentId);
+        filteredDocuments.push(documentToSave);
+
+        localStorage.setItem('planEdu_documents', JSON.stringify(filteredDocuments));
+        console.log('Documento salvo para verificação:', documentId);
+    } catch (error) {
+        console.error('Erro ao salvar documento no localStorage:', error);
+    }
 }
