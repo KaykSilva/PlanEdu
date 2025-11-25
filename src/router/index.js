@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('@/views/Pages/ViewPlan.vue')
     },
     {
+      path: '/edit/:id(\\d+)',
+      name: 'update',
+      component: () => import('@/views/Pages/EditPlan.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('@/views/Pages/NotFound.vue')
