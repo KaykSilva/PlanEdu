@@ -51,13 +51,9 @@ const filteredPlans = computed(() =>
 
 const today = new Date().toISOString().split("T")[0];
 
-const todaysPlans = computed(() =>
-  filteredPlans.value.filter((plan) => plan.date === today)
-);
+const todaysPlans = computed(() => filteredPlans.value.filter((plan) => plan.date === today));
 
-const otherPlans = computed(() =>
-  filteredPlans.value.filter((plan) => plan.date !== today)
-);
+const otherPlans = computed(() => filteredPlans.value.filter((plan) => plan.date !== today));
 
 const hasActiveFilters = computed(
   () => cleanedSearch.value !== "" || selectedSubject.value !== "Todas"
@@ -67,20 +63,25 @@ const hasActiveFilters = computed(
 <template>
   <div class="min-h-screen bg-base-200 overflow-hidden">
     <main class="container h-full overflow-auto max-w-[80%] mx-auto px-4 py-6" role="main">
-
       <!-- Header -->
       <header class="w-full mb-10" role="banner">
         <div class="flex items-center justify-between">
-          <section aria-labelledby="page-title">
-            <h1 id="page-title" class="text-3xl font-bold leading-none">
-              Seus Planos de Aula
-            </h1>
-            <p id="page-description" class="text-sm opacity-70 mt-1">
-              Organize e gerencie todos os seus planos de ensino em um só lugar
-            </p>
+          <section class="flex items-center gap-4" aria-labelledby="page-title">
+            <img src="/logo.png" alt="Logo" class="w-12 h-12 object-contain" />
+
+            <div>
+              <h1 id="page-title" class="text-3xl font-bold leading-none">Seus Planos de Aula</h1>
+              <p id="page-description" class="text-sm opacity-70 mt-1">
+                Organize e gerencie todos os seus planos de ensino em um só lugar
+              </p>
+            </div>
           </section>
+
           <nav aria-label="Ações da página">
-            <button class="btn gap-2 bg-gradient-to-r from-primary to-secondary text-white" @click="goToCreate">
+            <button
+              class="btn gap-2 bg-gradient-to-r from-primary to-secondary text-white"
+              @click="goToCreate"
+            >
               <Plus class="w-5 h-5" />
               Criar Novo Plano
             </button>
@@ -89,25 +90,37 @@ const hasActiveFilters = computed(
       </header>
 
       <!-- Busca + Filtros -->
-      <section class="w-full flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between"
-        aria-label="Ferramentas de busca e filtros">
+      <section
+        class="w-full flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between"
+        aria-label="Ferramentas de busca e filtros"
+      >
         <!-- Barra de busca -->
         <div class="flex items-center gap-3 w-full sm:w-auto flex-1 min-w-[250px] max-w-[400px]">
           <div class="relative w-full">
             <Search class="absolute z-10 left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary/70" />
-            <input v-model="searchTerm" type="search" placeholder="Pesquisar planos..." class="input w-full pl-12 py-3 rounded-xl bg-base-100 shadow-md
-                     border border-base-300 focus:border-primary
-                     focus:ring-2 focus:ring-primary/20 transition-all" aria-label="Pesquisar planos de aula" />
+            <input
+              v-model="searchTerm"
+              type="search"
+              placeholder="Pesquisar planos..."
+              class="input w-full pl-12 py-3 rounded-xl bg-base-100 shadow-md border border-base-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+              aria-label="Pesquisar planos de aula"
+            />
           </div>
         </div>
 
         <!-- Filtros -->
-        <nav class="flex gap-2 overflow-x-auto pb-1 w-full sm:w-auto sm:justify-end items-center"
-          aria-label="Filtros por disciplina">
-          <button v-for="subject in subjects" :key="subject"
+        <nav
+          class="flex gap-2 overflow-x-auto pb-1 w-full sm:w-auto sm:justify-end items-center"
+          aria-label="Filtros por disciplina"
+        >
+          <button
+            v-for="subject in subjects"
+            :key="subject"
             class="badge cursor-pointer whitespace-nowrap transition-all"
-            :class="selectedSubject === subject ? 'badge-primary' : 'badge-outline'" @click="selectSubject(subject)"
-            type="button">
+            :class="selectedSubject === subject ? 'badge-primary' : 'badge-outline'"
+            @click="selectSubject(subject)"
+            type="button"
+          >
             {{ subject }}
           </button>
         </nav>
@@ -117,8 +130,12 @@ const hasActiveFilters = computed(
       <section v-if="todaysPlans.length" class="mb-8">
         <h3 class="text-2xl font-bold mb-4">Planos de hoje</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <article v-for="(plan, idx) in todaysPlans" :key="plan.id" :style="{ animationDelay: `${idx * 100}ms` }"
-            class="animate-fadeIn">
+          <article
+            v-for="(plan, idx) in todaysPlans"
+            :key="plan.id"
+            :style="{ animationDelay: `${idx * 100}ms` }"
+            class="animate-fadeIn"
+          >
             <LessonPlanCard :plan="plan" />
           </article>
         </div>
@@ -128,15 +145,23 @@ const hasActiveFilters = computed(
       <section v-if="otherPlans.length" class="mb-8">
         <h3 class="text-2xl font-bold mb-4">Outros planos</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <article v-for="(plan, idx) in otherPlans" :key="plan.id" :style="{ animationDelay: `${idx * 100}ms` }"
-            class="animate-fadeIn">
+          <article
+            v-for="(plan, idx) in otherPlans"
+            :key="plan.id"
+            :style="{ animationDelay: `${idx * 100}ms` }"
+            class="animate-fadeIn"
+          >
             <LessonPlanCard :plan="plan" />
           </article>
         </div>
       </section>
 
       <!-- Caso não haja planos -->
-      <section v-if="filteredPlans.length === 0" class="text-center py-12" aria-label="Nenhum plano encontrado">
+      <section
+        v-if="filteredPlans.length === 0"
+        class="text-center py-12"
+        aria-label="Nenhum plano encontrado"
+      >
         <BookOpen class="w-16 h-16 mx-auto mb-4 opacity-60" />
         <h3 class="text-lg font-semibold mb-2">Nenhum plano encontrado</h3>
         <p class="opacity-70 mb-4">
