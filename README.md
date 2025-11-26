@@ -1,44 +1,86 @@
-# classroom-components
+<div align='center'>
+  <img width="500" height="auto" alt="Image" src="https://github.com/user-attachments/assets/8db92782-f367-4dfb-9193-6768b47186dc" />
+</div>
 
-This template should help get you started developing with Vue 3 in Vite.
+------------------------------------------------------------------------
 
-## Recommended IDE Setup
+<div align='center'>
+  <p align='justify'>
+    Sistema informatizado destinado à elaboração, organização e gestão de planos de ensino. Desenvolvido como projeto de extensão da Universidade Maurício de Nassau, tem como finalidade apoiar docentes na construção de conteúdos, objetivos, metodologias e instrumentos avaliativos, garantindo padronização, clareza estrutural e acessibilidade no processo de planejamento pedagógico.
+  </p>
+  
+<br/>
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+  ## Acesse a aplicação oficial através desse link:
 
-## Recommended Browser Setup
+ <p align='center'>
+    https://www.planedu.online/
+ </p>
+</div>
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+# Tecnologias
 
-## Customize configuration
+<div align='left' height='auto' width='100%'>
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+  <img src="https://skillicons.dev/icons?i=html,css,javascript,typescript,vue,local-forage" />
 
-## Project Setup
+</div>
 
-```sh
+# Project Setup
+
+### Install Dependencies
+Executa a instalação de todas as bibliotecas e módulos necessários para o funcionamento do projeto, com base no arquivo package.json.
+``` sh
+# npm
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+``` sh
+# yarn
+yarn install
+```
 
-```sh
+``` sh
+# pnpm
+pnpm install
+```
+
+### Development
+
+### Start Development Server
+Inicia o servidor de desenvolvimento do Vite, habilitando hot reload, permitindo visualizar alterações em tempo real e facilitando o processo de desenvolvimento.
+``` sh
+# npm
 npm run dev
 ```
 
-### Compile and Minify for Production
+``` sh
+# yarn
+yarn dev
+```
 
-```sh
+``` sh
+# pnpm
+pnpm dev
+```
+
+O projeto ficará disponível no endereço padrão informado pelo Vite (geralmente http://localhost:5173).
+
+## Production Build
+
+### Generate Optimized Build
+Cria a versão otimizada para produção, realizando minificação, tree-shaking e empacotamento dos arquivos. O resultado final é gerado na pasta dist/, pronta para implantação em servidores ou serviços de hospedagem estática.
+``` sh
+# npm
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+``` sh
+# yarn
+yarn build
+```
 
-```sh
-npm run lint
+``` sh
+# pnpm
+pnpm build
 ```

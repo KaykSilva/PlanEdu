@@ -69,13 +69,9 @@ const filteredPlans = computed(() =>
 
 const today = new Date().toISOString().split("T")[0];
 
-const todaysPlans = computed(() =>
-  filteredPlans.value.filter((plan) => plan.date === today)
-);
+const todaysPlans = computed(() => filteredPlans.value.filter((plan) => plan.date === today));
 
-const otherPlans = computed(() =>
-  filteredPlans.value.filter((plan) => plan.date !== today)
-);
+const otherPlans = computed(() => filteredPlans.value.filter((plan) => plan.date !== today));
 
 const hasActiveFilters = computed(
   () => cleanedSearch.value !== "" || selectedSubject.value !== "Todas"
@@ -92,30 +88,22 @@ const importedPlansCount = computed(() => plans.value.filter(plan =>
 <template>
   <div class="min-h-screen bg-base-200 overflow-hidden">
     <main class="container h-full overflow-auto max-w-[80%] mx-auto px-4 py-6" role="main">
-
       <!-- Header -->
       <header class="w-full mb-10" role="banner">
         <div class="flex items-center justify-between">
-          <section aria-labelledby="page-title">
-            <h1 id="page-title" class="text-3xl font-bold leading-none">
-              Seus Planos de Aula
-            </h1>
-            <p id="page-description" class="text-sm opacity-70 mt-1">
-              Organize e gerencie todos os seus planos de ensino em um só lugar
-            </p>
+          <section class="flex items-center gap-4" aria-labelledby="page-title">
+            <img src="/logo.png" alt="Logo" class="w-12 h-12 object-contain" />
 
-            <!-- Estatísticas rápidas -->
-            <div class="flex gap-4 mt-3 text-xs">
-              <span class="badge badge-soft">{{ totalPlans }} planos</span>
-              <span v-if="importedPlansCount > 0" class="badge badge-outline">{{ importedPlansCount }} importados</span>
-              <span v-if="todayPlansCount > 0" class="badge badge-primary">{{ todayPlansCount }} hoje</span>
+            <div>
+              <h1 id="page-title" class="text-3xl font-bold leading-none">Seus Planos de Aula</h1>
+              <p id="page-description" class="text-sm opacity-70 mt-1">
+                Organize e gerencie todos os seus planos de ensino em um só lugar
+              </p>
             </div>
           </section>
 
-          <nav aria-label="Ações da página" class="flex gap-3">
-            <!-- Botão Criar Novo -->
-            <button class="btn gap-2 bg-gradient-to-r from-primary to-secondary text-white" @click="goToCreate"
-              title="Criar novo plano de aula manualmente">
+          <nav aria-label="Ações da página">
+            <button class="btn gap-2 bg-gradient-to-r from-primary to-secondary text-white" @click="goToCreate">
               <Plus class="w-5 h-5" />
               Criar Novo
             </button>

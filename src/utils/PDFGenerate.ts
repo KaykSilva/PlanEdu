@@ -1,6 +1,7 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import QRCode from "qrcode";
+import QRCode from "qrcode";
 
 export async function generateLessonPlanPDF(formData) {
   const doc = new jsPDF({ unit: "pt", format: "a4" });
